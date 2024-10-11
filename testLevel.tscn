@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://bm7fit1347f8t"]
+
+[ext_resource type="Texture2D" uid="uid://bmoii0n4mlefi" path="res://icon.svg" id="1_lb1gg"]
+
+[node name="Node2D" type="Node2D"]
+scale = Vector2(0.243646, 0.410183)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-112.5, 503.5)
+scale = Vector2(38.8047, 5.21094)
+texture = ExtResource("1_lb1gg")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(2393, -1146)
+scale = Vector2(6.70362, -39.8734)
+texture = ExtResource("1_lb1gg")
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+position = Vector2(-1945.45, 153.59)
+scale = Vector2(-5.02273, 3.61929)
+texture = ExtResource("1_lb1gg")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(2393, -1146)
+scale = Vector2(6.70362, -39.8734)
+polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(-112.5, 503.5)
+scale = Vector2(38.8047, 5.21094)
+polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
+
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(-1945.45, 153.59)
+rotation = 3.14159
+scale = Vector2(5.02273, -3.61929)
+polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
