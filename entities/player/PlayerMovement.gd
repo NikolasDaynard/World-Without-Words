@@ -2,16 +2,21 @@ extends CharacterBody2D
 
 
 const GROUND_ACCEL = 200
+const GROUND_DECEL = GROUND_ACCEL
 const AIR_ACCEL = 70
+const AIR_DECEL = 30
 const MAX_SPEED = 600.0
 var jumpVelocityIteration = 0 # stores total jumping velocity added
 const MAX_JUMP_VELOCITY = -1000 
+const MIN_JUMP_VELOCITY = -500 
 const JUMP_VELOCITY = -200
 var timeSinceLastJump = 0
 const WALLJUMP_DELAY = .3 # seconds
 const WALLJUMP_VELOCITY = JUMP_VELOCITY * 6 
+const WALLJUMP_HORIZONTAL_VELOCITY = -JUMP_VELOCITY * 4
 var timeSinceTouchingWall = 0
 const WALLJUMP_COYOTE_TIME = .2 # time off a wall until not able to jump
+var holdingJump = false;
 # todo make walls sticky rather than coyote time
 var facing_direction = 1
 
@@ -24,35 +29,62 @@ func _process(delta):
 
 func _physics_process(delta):
 	var accel_fac = 0
+	var decel_fac = 0
 
 	# Add the gravity.
 	if not is_on_floor():
 		accel_fac = AIR_ACCEL
-		velocity.y += gravity * delta
+		decel_fac = AIR_DECEL
+		velocity.y += gravity * delta	
 	else:
 		jumpVelocityIteration = 0
 		accel_fac = GROUND_ACCEL
+		decel_fac = GROUND_DECEL
 
 	if is_on_wall():
 		timeSinceTouchingWall = 0
 
-
 	# Handle jump.
 	if Input.is_action_pressed("ui_accept"):
-		if jumpVelocityIteration > MAX_JUMP_VELOCITY:
-			velocity.y += JUMP_VELOCITY - (gravity * delta) # cancel grav
-			jumpVelocityIteration += JUMP_VELOCITY
-			timeSinceLastJump = 0
+		if is_on_floor():
+			holdingJump = true
+		if jumpVelocityIteration > MAX_JUMP_VELOCITY and holdingJump:
+			jump(JUMP_VELOCITY, delta)
 		elif timeSinceTouchingWall < WALLJUMP_COYOTE_TIME and timeSinceLastJump > WALLJUMP_DELAY:
 			velocity.y = WALLJUMP_VELOCITY
+			velocity.x += get_wall_normal().x * WALLJUMP_HORIZONTAL_VELOCITY
 			timeSinceLastJump = 0
+	else:
+		if (jumpVelocityIteration != 0 and jumpVelocityIteration > MIN_JUMP_VELOCITY):
+			jump(JUMP_VELOCITY, delta)
+		holdingJump = false
 
 	var direction = Input.get_axis("ui_left", "ui_right")
 	if direction:
-		velocity.x += direction * accel_fac
+		var newXVel = velocity.x + direction * accel_fac
+		# regular case
+		if clamp(newXVel, -MAX_SPEED, MAX_SPEED) == newXVel:
+			velocity.x = newXVel
+		# is new velocity closer to in bounds
+		elif velocity.x > MAX_SPEED and newXVel < velocity.x:
+			velocity.x = newXVel
+		elif velocity.x < -MAX_SPEED and newXVel > velocity.x:
+			velocity.x = newXVel
+		# if it's not closer, decelerate like normal
+		else:
+			velocity.x = move_toward(velocity.x, 0, decel_fac)
+
 		facing_direction = direction
 	else:
-		velocity.x = move_toward(velocity.x, 0, accel_fac)
-	velocity.x = clamp(velocity.x, -MAX_SPEED, MAX_SPEED)
+		velocity.x = move_toward(velocity.x, 0, decel_fac)
 
 	move_and_slide()
+
+func jump(force, jdelta):
+	velocity.y += force - (gravity * jdelta) # cancel grav
+	jumpVelocityIteration += force
+	timeSinceLastJump = 0
+
+func hit(direction, force):
+	velocity = direction * force
+	pass

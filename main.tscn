@@ -15,4 +15,4 @@ position = Vector2(0, -113)
 [node name="InteractionUi" parent="." instance=ExtResource("3_63qn2")]
 
 [node name="Enemy" parent="." instance=ExtResource("4_1psfw")]
-position = Vector2(369, -23)
+position = Vector2(379, 3)

@@ -5,13 +5,18 @@
 
 [node name="Enemy" type="Node2D"]
 
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
+[node name="Area2D" type="Area2D" parent="."]
 script = ExtResource("1_ygtpm")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RigidBody2D"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+position = Vector2(1, 0)
 polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
 
-[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+position = Vector2(1, 0)
 texture = ExtResource("1_tprun")
 
-[node name="RayCast2D" type="RayCast2D" parent="RigidBody2D"]
+[node name="RayCast2D" type="RayCast2D" parent="Area2D"]
+position = Vector2(1, 0)
+
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
