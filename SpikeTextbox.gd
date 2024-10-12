@@ -4,6 +4,11 @@ extends Node2D
 @onready var background = self.get_node("Sprite2D")
 @onready var font = label.get("theme_override_fonts/font")
 
+var direction_vector = Vector2(0, 0)
+const UI_TRAVEL_VELOCITY = 700.0
+var timeAlive = 0
+const UI_MOVEMENT_DELAY = .6 # time till it starts moving
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass 
@@ -11,8 +16,11 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var mousePos = get_global_mouse_position()
-	global_position = lerp(global_position, mousePos, delta)
+	timeAlive += delta
+	# var mousePos = get_global_mouse_position()
+	# global_position = lerp(global_position, mousePos, delta)
+	if timeAlive > UI_MOVEMENT_DELAY:
+		global_position += direction_vector * delta * UI_TRAVEL_VELOCITY
 	pass
 	
 func add_text(text):
