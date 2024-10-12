@@ -10,8 +10,9 @@ func _ready():
 func _process(_delta):
 	pass
 	
-func summon_text(text):
+func summon_text(text, position):
 	var newText = preload("res://SpikeTextbox.tscn").instantiate()
 	add_child(newText)
 	newText.add_text(text)
+	newText.global_position = position
 

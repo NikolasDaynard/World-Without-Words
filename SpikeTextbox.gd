@@ -10,7 +10,9 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
+func _process(delta):
+	var mousePos = get_global_mouse_position()
+	global_position = lerp(global_position, mousePos, delta)
 	pass
 	
 func add_text(text):
@@ -24,8 +26,10 @@ func add_text(text):
 	background.scale = scale_factor  # Apply the scale to resize the sprite
 
 	# Position the background to center it
-	background.position = label.position + (background.texture.get_size() * background.scale / 2)
+	background.global_position = label.global_position + (background.texture.get_size() * background.scale / 2)
 
 	background.scale += Vector2(.5, .5) # add some border
+	label.global_position -= textSize / 2  # Center the label
+	background.global_position -= textSize / 2  # Center the label
 
 	pass
