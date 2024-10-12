@@ -4,6 +4,7 @@ extends Area2D
 var speed: float = 100
 # Direction of movement: 1 for right, -1 for left
 var direction: int = 1
+var velocity = Vector2(0, 0)
 
 # RayCast2D node for detecting walls
 @onready var raycast = $RayCast2D
@@ -27,12 +28,21 @@ func _process(delta):
 
 	# Set velocity based on direction and speed
 	global_position += Vector2(direction * speed * delta, 0)
+	global_position += velocity
+
+	velocity.x = move_toward(velocity.x, 0, .1)
+	velocity.y = move_toward(velocity.y, 0, .1)
+	velocity *= .3
 
 
 
 
 func _on_body_entered(body):
-	print(body)
+	# print(body)
 	if body.has_method("hit") and body.is_in_group("player"):
 		body.hit(body.global_position - global_position, 15)
 	pass
+
+func apply_force(force_direction, force):
+	force_direction.y = -abs(force_direction.y)
+	velocity = force_direction * force

@@ -13,5 +13,6 @@ func _process(_delta):
 	if Input.is_action_just_pressed("attack"):
 		ui.summon_text("SPIKE YEAHHHH\n oh ma gawd", 
 			characterControlller.global_position - Vector2(20, 20),
-			characterControlller.facing_direction)
+			characterControlller.facing_direction,
+			true)
 	pass

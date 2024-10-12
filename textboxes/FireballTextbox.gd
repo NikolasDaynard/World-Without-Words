@@ -9,6 +9,7 @@ const UI_TRAVEL_VELOCITY = 700.0
 var timeAlive = 0
 const UI_MOVEMENT_DELAY = 1 # time till it starts moving
 var text = ""
+var is_player_friendly = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -55,3 +56,19 @@ func add_text(new_text):
 
 func is_finished(): # returns true when finished speaking
 	return timeAlive > UI_MOVEMENT_DELAY
+
+func set_friendly_to_player(friendly):
+	is_player_friendly = friendly
+	pass
+
+func _on_area_2d_body_entered(body):
+	print(body)
+	pass # Replace with function body.
+
+
+func _on_area_2d_area_entered(area): # should be enemy
+	print(area)
+	if area.has_method("apply_force"):
+		area.apply_force(area.global_position - global_position, 1)
+		queue_free()
+	pass # Replace with function body.

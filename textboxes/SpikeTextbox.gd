@@ -9,6 +9,7 @@ const UI_TRAVEL_VELOCITY = 700.0
 var timeAlive = 0
 const UI_MOVEMENT_DELAY = 1 # time till it starts moving
 var text = ""
+var isPlayerControlled = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

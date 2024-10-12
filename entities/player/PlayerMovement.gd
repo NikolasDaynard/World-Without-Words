@@ -1,11 +1,11 @@
 extends CharacterBody2D
 
-
-const GROUND_ACCEL = 200
+const MOVESPEED = 210
+const GROUND_ACCEL = MOVESPEED
 const GROUND_DECEL = GROUND_ACCEL
-const AIR_ACCEL = 70
-const AIR_DECEL = 30
-const MAX_SPEED = 600.0
+const AIR_ACCEL = MOVESPEED * .35
+const AIR_DECEL = AIR_ACCEL * .5
+const MAX_SPEED = MOVESPEED * 3
 var jumpVelocityIteration = 0 # stores total jumping velocity added
 const MAX_JUMP_VELOCITY = -1000 
 const MIN_JUMP_VELOCITY = -500 
@@ -77,7 +77,6 @@ func _physics_process(delta):
 		facing_direction = direction
 	else:
 		velocity.x = move_toward(velocity.x, 0, decel_fac)
-
 	move_and_slide()
 
 func jump(force, jdelta):
