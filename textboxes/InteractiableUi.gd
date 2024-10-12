@@ -1,7 +1,7 @@
 extends Node2D
 
-var spikeText = preload("res://SpikeTextbox.tscn")
-var fireballText = preload("res://FireballTextbox.tscn")
+var spikeText = preload("res://textboxes/SpikeTextbox.tscn")
+var fireballText = preload("res://textboxes/FireballTextbox.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

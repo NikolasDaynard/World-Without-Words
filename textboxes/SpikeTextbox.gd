@@ -7,7 +7,8 @@ extends Node2D
 var direction_vector = Vector2(0, 0)
 const UI_TRAVEL_VELOCITY = 700.0
 var timeAlive = 0
-const UI_MOVEMENT_DELAY = .6 # time till it starts moving
+const UI_MOVEMENT_DELAY = 1 # time till it starts moving
+var text = ""
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -21,11 +22,21 @@ func _process(delta):
 	# global_position = lerp(global_position, mousePos, delta)
 	if timeAlive > UI_MOVEMENT_DELAY:
 		global_position += direction_vector * delta * UI_TRAVEL_VELOCITY
+	else:
+		# typewriter effect, probably terribly slow but whatever
+		var visible_chars = ""
+		for i in text.length():
+			if (float(i) / text.length()) <= (timeAlive / UI_MOVEMENT_DELAY):
+				visible_chars += text[i]
+			else:
+				break
+		label.set_text(visible_chars)
+		
 	pass
 	
-func add_text(text):
-	label.set_text(text)
-	var textSize = font.get_multiline_string_size(text)
+func add_text(new_text):
+	text = new_text
+	var textSize = font.get_multiline_string_size(new_text)
 
 	var desired_size = textSize  # The desired size in pixels
 	var texture_size = background.texture.get_size()  # Get the original size of the texture
