@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://b2u7iojac3vtf"]
+[gd_scene load_steps=6 format=3 uid="uid://b2u7iojac3vtf"]
 
 [ext_resource type="Script" path="res://textboxes/SpikeTextbox.gd" id="1_d1wun"]
 [ext_resource type="FontFile" uid="uid://cag6qc7grca55" path="res://stolenfontREPLACE.ttf" id="2_n3c20"]
 [ext_resource type="Texture2D" uid="uid://bmoii0n4mlefi" path="res://icon.svg" id="3_1dwcl"]
+[ext_resource type="Shader" path="res://textboxes/FireballTextbox.gdshader" id="3_rmpj7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fkebf"]
+shader = ExtResource("3_rmpj7")
 
 [node name="SpikeTextbox" type="Node2D"]
 script = ExtResource("1_d1wun")
@@ -16,5 +20,6 @@ theme_override_fonts/font = ExtResource("2_n3c20")
 text = "Testing"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_fkebf")
 position = Vector2(65, 66)
 texture = ExtResource("3_1dwcl")
