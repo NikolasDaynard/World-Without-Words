@@ -13,10 +13,12 @@ const JUMP_VELOCITY = -200
 var timeSinceLastJump = 0
 const WALLJUMP_DELAY = .3 # seconds
 const WALLJUMP_VELOCITY = JUMP_VELOCITY * 6 
-const WALLJUMP_HORIZONTAL_VELOCITY = -JUMP_VELOCITY * 4
+const WALLJUMP_HORIZONTAL_VELOCITY = -JUMP_VELOCITY * 5
 var timeSinceTouchingWall = 0
 const WALLJUMP_COYOTE_TIME = .2 # time off a wall until not able to jump
 var holdingJump = false;
+const WALLSLIDE_GRAV_FACTOR = .5
+const MAX_WALLSLIDE_VELOCITY = 300
 # todo make walls sticky rather than coyote time
 var facing_direction = 1
 
@@ -35,7 +37,15 @@ func _physics_process(delta):
 	if not is_on_floor():
 		accel_fac = AIR_ACCEL
 		decel_fac = AIR_DECEL
-		velocity.y += gravity * delta	
+			
+		if !is_on_wall():
+			velocity.y += gravity * delta
+		else:
+			if velocity.y > 0:
+				velocity.y += gravity * delta * WALLSLIDE_GRAV_FACTOR
+				velocity.y = clamp(velocity.y, 0, MAX_WALLSLIDE_VELOCITY)
+			else:
+				velocity.y += gravity * delta
 	else:
 		jumpVelocityIteration = 0
 		accel_fac = GROUND_ACCEL
@@ -70,8 +80,8 @@ func _physics_process(delta):
 			velocity.x = newXVel
 		elif velocity.x < -MAX_SPEED and newXVel > velocity.x:
 			velocity.x = newXVel
-		# if it's not closer, decelerate like normal
-		else:
+
+		if clamp(velocity.x, -MAX_SPEED, MAX_SPEED) != velocity.x:
 			velocity.x = move_toward(velocity.x, 0, decel_fac)
 
 		facing_direction = direction
