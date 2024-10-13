@@ -29,6 +29,10 @@ var pressing_dir_x = false
 
 const MAX_JUMP_BUFFER_TIME = .1
 var jumpBufferedTime = MAX_JUMP_BUFFER_TIME
+var crouching = false
+
+var MAX_HIT_STUN_TIME = .8
+var hitStunTime = MAX_HIT_STUN_TIME
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -39,6 +43,7 @@ func _process(delta):
 	timeSinceTouchingGround += delta
 	timeTouchingGround += delta
 	jumpBufferedTime += delta
+	hitStunTime += delta
 
 func _physics_process(delta):
 	if Input.is_action_pressed("up"):
@@ -76,7 +81,7 @@ func _physics_process(delta):
 		timeSinceTouchingWall = 0
 
 	# Handle jump. (periot)
-	if Input.is_action_pressed("ui_accept") or jumpBufferedTime < MAX_JUMP_BUFFER_TIME:
+	if Input.is_action_pressed("ui_accept") or jumpBufferedTime < MAX_JUMP_BUFFER_TIME and not is_stunned():
 		if jumpVelocityIteration > MAX_JUMP_VELOCITY and holdingJump:
 			jump(JUMP_VELOCITY, delta)
 			jumpBufferedTime = MAX_JUMP_BUFFER_TIME
@@ -98,14 +103,17 @@ func _physics_process(delta):
 	if Input.is_action_just_released("ui_accept") and velocity.y < 0:
 		velocity.y *= .5
 
-
+	print(global_position.y)
 	var direction = Input.get_axis("ui_left", "ui_right")
-	if direction:
+	if direction and not is_stunned():
 		var newXVel = velocity.x + direction * accel_fac
-		# regular case
-		if clamp(newXVel, -MAX_SPEED, MAX_SPEED) == newXVel:
+		# regular case, below and new gets clamped
+		if clamp(velocity.x, -MAX_SPEED, MAX_SPEED) == velocity.x and clamp(newXVel, -MAX_SPEED, MAX_SPEED) != newXVel:
+			velocity.x = clamp(newXVel, -MAX_SPEED, MAX_SPEED)
+		# acceleration case below clamp
+		elif clamp(newXVel, -MAX_SPEED, MAX_SPEED) == newXVel:
 			velocity.x = newXVel
-		# is new velocity closer to in bounds
+		# is new velocity closer to in bounds (against being over)
 		elif velocity.x > MAX_SPEED and newXVel < velocity.x:
 			velocity.x = newXVel
 		elif velocity.x < -MAX_SPEED and newXVel > velocity.x:
@@ -132,4 +140,8 @@ func jump(force, jdelta):
 
 func hit(direction, force):
 	velocity = direction * force
+	hitStunTime = 0
 	pass
+
+func is_stunned():
+	return hitStunTime < MAX_HIT_STUN_TIME
