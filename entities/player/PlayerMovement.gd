@@ -17,7 +17,7 @@ var timeTouchingGround = 0
 var timeSinceLastJump = 0
 const WALLJUMP_DELAY = .3 # seconds
 const WALLJUMP_VELOCITY = JUMP_VELOCITY * 6 
-const WALLJUMP_HORIZONTAL_VELOCITY = -JUMP_VELOCITY * 5
+const WALLJUMP_HORIZONTAL_VELOCITY = -JUMP_VELOCITY * 2
 var timeSinceTouchingWall = 0
 const WALLJUMP_COYOTE_TIME = .2 # time off a wall until not able to jump
 var holdingJump = false;
@@ -80,7 +80,7 @@ func _physics_process(delta):
 		if jumpVelocityIteration > MAX_JUMP_VELOCITY and holdingJump:
 			jump(JUMP_VELOCITY, delta)
 			jumpBufferedTime = MAX_JUMP_BUFFER_TIME
-		elif timeSinceTouchingWall < WALLJUMP_COYOTE_TIME and timeSinceLastJump > WALLJUMP_DELAY:
+		elif timeSinceTouchingWall < WALLJUMP_COYOTE_TIME and timeSinceLastJump > WALLJUMP_DELAY and not is_on_floor():
 			velocity.y = WALLJUMP_VELOCITY
 			velocity.x += get_wall_normal().x * WALLJUMP_HORIZONTAL_VELOCITY
 			timeSinceLastJump = 0
@@ -108,7 +108,6 @@ func _physics_process(delta):
 
 		# only slow if coyote time has passed for easier chaining
 		if clamp(velocity.x, -MAX_SPEED, MAX_SPEED) != velocity.x and timeTouchingGround > JUMP_FRICTION_COYOTE_TIME and is_on_floor():
-			print("friction")
 			velocity.x = move_toward(velocity.x, 0, decel_fac)
 
 		facing_direction.x = direction

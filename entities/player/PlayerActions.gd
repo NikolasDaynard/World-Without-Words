@@ -19,12 +19,12 @@ func _process(delta):
 			charController.global_position - Vector2(20, 20),
 			charController.facing_direction.x,
 			true)
-	if Input.is_action_just_pressed("dash"):
-		print("fash")
+	if Input.is_action_just_pressed("dash") and timeSinceDash > MAX_DASH_TIME:
 		timeSinceDash = 0
-		# properly handle just y no x
 	if timeSinceDash < MAX_DASH_TIME:
 		var normalizedDir = charController.facing_direction.normalized()
+		normalizedDir.y *= 1.2 # add y bias
+		# properly handle just y no x
 		if not charController.pressing_dir_x and normalizedDir.y != 0:
 			charController.velocity.y = normalizedDir.y * DASH_SPEED
 		else:
@@ -33,5 +33,5 @@ func _process(delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		if timeSinceDash < MAX_DASH_TIME and charController.timeSinceTouchingGround < charController.JUMP_COYOTE_TIME:
 			charController.velocity.x -= 100.0 * charController.facing_direction.x
-			print("ldash")
+			# charController.jump(charController.JUMP_VELOCITY, delta)
 	pass
