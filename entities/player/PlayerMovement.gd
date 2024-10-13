@@ -1,9 +1,11 @@
 extends CharacterBody2D
 
+@onready var sprite = $"Sprite2D"
+
 const MOVESPEED = 210
 const GROUND_ACCEL = MOVESPEED
 const GROUND_DECEL = GROUND_ACCEL
-const AIR_ACCEL = MOVESPEED * .35
+const AIR_ACCEL = MOVESPEED * .4
 const AIR_DECEL = AIR_ACCEL * .5
 const MAX_SPEED = MOVESPEED * 3
 var jumpVelocityIteration = 0 # stores total jumping velocity added
@@ -22,12 +24,28 @@ const MAX_WALLSLIDE_VELOCITY = 300
 # todo make walls sticky rather than coyote time
 var facing_direction = 1
 
+var holdingRoll = false
+const ROLL_SPEED = MOVESPEED * 5
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _process(delta):
 	timeSinceLastJump += delta
 	timeSinceTouchingWall += delta
+
+	if Input.is_action_just_pressed("roll"):
+		holdingRoll = true
+	if Input.is_action_just_released("roll"):
+		holdingRoll = false
+
+	if holdingRoll:
+		sprite.rotation += 10 * delta
+		if is_on_floor():
+			velocity.x = facing_direction * ROLL_SPEED
+		else:
+			if velocity.y > 0:
+				velocity.y -= gravity * delta * .6
 
 func _physics_process(delta):
 	var accel_fac = 0
