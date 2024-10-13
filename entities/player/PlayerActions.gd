@@ -1,4 +1,5 @@
 extends Node2D
+# these are all the things that are item locked, thus they are not in moveset
 
 @onready var ui = $"../InteractionUi"
 @onready var charController = $"CharacterBody2D"
