@@ -20,7 +20,8 @@ var holdingJump = false;
 const WALLSLIDE_GRAV_FACTOR = .5
 const MAX_WALLSLIDE_VELOCITY = 300
 # todo make walls sticky rather than coyote time
-var facing_direction = 1
+var facing_direction = Vector2(1, 0)
+var pressing_dir_x = false
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -30,6 +31,13 @@ func _process(delta):
 	timeSinceTouchingWall += delta
 
 func _physics_process(delta):
+	if Input.is_action_pressed("up"):
+		facing_direction.y = -1
+	elif Input.is_action_pressed("down"):
+		facing_direction.y = 1
+	else:
+		facing_direction.y = 0
+		
 	var accel_fac = 0
 	var decel_fac = 0
 
@@ -81,12 +89,15 @@ func _physics_process(delta):
 		elif velocity.x < -MAX_SPEED and newXVel > velocity.x:
 			velocity.x = newXVel
 
-		if clamp(velocity.x, -MAX_SPEED, MAX_SPEED) != velocity.x:
+		if clamp(velocity.x, -MAX_SPEED, MAX_SPEED) != velocity.x and is_on_floor():
 			velocity.x = move_toward(velocity.x, 0, decel_fac)
 
-		facing_direction = direction
+		facing_direction.x = direction
+		pressing_dir_x = true
 	else:
+		pressing_dir_x = false
 		velocity.x = move_toward(velocity.x, 0, decel_fac)
+
 	move_and_slide()
 
 func jump(force, jdelta):
