@@ -10,6 +10,10 @@ var jumpVelocityIteration = 0 # stores total jumping velocity added
 const MAX_JUMP_VELOCITY = -1000 
 const MIN_JUMP_VELOCITY = -500 
 const JUMP_VELOCITY = -200
+const JUMP_COYOTE_TIME = .12
+const JUMP_FRICTION_COYOTE_TIME = .05
+var timeSinceTouchingGround = 0
+var timeTouchingGround = 0
 var timeSinceLastJump = 0
 const WALLJUMP_DELAY = .3 # seconds
 const WALLJUMP_VELOCITY = JUMP_VELOCITY * 6 
@@ -23,12 +27,18 @@ const MAX_WALLSLIDE_VELOCITY = 300
 var facing_direction = Vector2(1, 0)
 var pressing_dir_x = false
 
+const MAX_JUMP_BUFFER_TIME = .1
+var jumpBufferedTime = MAX_JUMP_BUFFER_TIME
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _process(delta):
 	timeSinceLastJump += delta
 	timeSinceTouchingWall += delta
+	timeSinceTouchingGround += delta
+	timeTouchingGround += delta
+	jumpBufferedTime += delta
 
 func _physics_process(delta):
 	if Input.is_action_pressed("up"):
@@ -43,6 +53,7 @@ func _physics_process(delta):
 
 	# Add the gravity.
 	if not is_on_floor():
+		timeTouchingGround = 0
 		accel_fac = AIR_ACCEL
 		decel_fac = AIR_DECEL
 			
@@ -55,7 +66,9 @@ func _physics_process(delta):
 			else:
 				velocity.y += gravity * delta
 	else:
-		jumpVelocityIteration = 0
+		timeSinceTouchingGround = 0
+		if not holdingJump:
+			jumpVelocityIteration = 0
 		accel_fac = GROUND_ACCEL
 		decel_fac = GROUND_DECEL
 
@@ -63,15 +76,19 @@ func _physics_process(delta):
 		timeSinceTouchingWall = 0
 
 	# Handle jump.
-	if Input.is_action_pressed("ui_accept"):
-		if is_on_floor():
-			holdingJump = true
+	if Input.is_action_pressed("ui_accept") or jumpBufferedTime < MAX_JUMP_BUFFER_TIME:
 		if jumpVelocityIteration > MAX_JUMP_VELOCITY and holdingJump:
 			jump(JUMP_VELOCITY, delta)
+			jumpBufferedTime = MAX_JUMP_BUFFER_TIME
 		elif timeSinceTouchingWall < WALLJUMP_COYOTE_TIME and timeSinceLastJump > WALLJUMP_DELAY:
 			velocity.y = WALLJUMP_VELOCITY
 			velocity.x += get_wall_normal().x * WALLJUMP_HORIZONTAL_VELOCITY
 			timeSinceLastJump = 0
+			jumpBufferedTime = MAX_JUMP_BUFFER_TIME
+		elif not holdingJump and jumpBufferedTime > MAX_JUMP_BUFFER_TIME: # if we're not jumping buffer it
+			jumpBufferedTime = 0
+		if timeSinceTouchingGround < JUMP_COYOTE_TIME:
+			holdingJump = true
 	else:
 		if (jumpVelocityIteration != 0 and jumpVelocityIteration > MIN_JUMP_VELOCITY):
 			jump(JUMP_VELOCITY, delta)
@@ -89,7 +106,9 @@ func _physics_process(delta):
 		elif velocity.x < -MAX_SPEED and newXVel > velocity.x:
 			velocity.x = newXVel
 
-		if clamp(velocity.x, -MAX_SPEED, MAX_SPEED) != velocity.x and is_on_floor():
+		# only slow if coyote time has passed for easier chaining
+		if clamp(velocity.x, -MAX_SPEED, MAX_SPEED) != velocity.x and timeTouchingGround > JUMP_FRICTION_COYOTE_TIME and is_on_floor():
+			print("friction")
 			velocity.x = move_toward(velocity.x, 0, decel_fac)
 
 		facing_direction.x = direction
@@ -101,6 +120,8 @@ func _physics_process(delta):
 	move_and_slide()
 
 func jump(force, jdelta):
+	if velocity.y > 0:
+		velocity.y = 0
 	velocity.y += force - (gravity * jdelta) # cancel grav
 	jumpVelocityIteration += force
 	timeSinceLastJump = 0
