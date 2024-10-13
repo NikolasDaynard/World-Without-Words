@@ -23,7 +23,7 @@ func _process(delta):
 			charController.global_position - Vector2(20, 20),
 			charController.facing_direction.x,
 			true)
-	if Input.is_action_just_pressed("dash") and timeSinceDash > MAX_DASH_TIME:
+	if Input.is_action_just_pressed("dash") and timeSinceDash > MAX_DASH_TIME and not charController.is_stunned():
 		timeSinceDash = 0
 		verticalDashDir = 0
 	if timeSinceDash < MAX_DASH_TIME:
@@ -46,7 +46,7 @@ func _process(delta):
 			# charController.jump(charController.JUMP_VELOCITY, delta)
 
 	if charController.is_stunned():
-		sprite.visible = int(charController.hitStunTime * 10) % 2
+		sprite.visible = int(charController.timeSinceStunned * 10) % 2
 	else:
 		sprite.visible = true
 	pass

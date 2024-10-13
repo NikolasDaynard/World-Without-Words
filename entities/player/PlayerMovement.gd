@@ -27,11 +27,11 @@ var facing_direction = Vector2(1, 0)
 var pressing_dir_x = false
 
 const MAX_JUMP_BUFFER_TIME = .1
-var jumpBufferedTime = MAX_JUMP_BUFFER_TIME
+var timeSinceJumpBuffered = MAX_JUMP_BUFFER_TIME
 var crouching = false
 
 var MAX_HIT_STUN_TIME = .8
-var hitStunTime = MAX_HIT_STUN_TIME
+var timeSinceStunned = MAX_HIT_STUN_TIME
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -41,8 +41,8 @@ func _process(delta):
 	timeSinceTouchingWall += delta
 	timeSinceTouchingGround += delta
 	timeTouchingGround += delta
-	jumpBufferedTime += delta
-	hitStunTime += delta
+	timeSinceJumpBuffered += delta
+	timeSinceJumpBuffered += delta
 
 func _physics_process(delta):
 	if Input.is_action_pressed("up"):
@@ -80,17 +80,17 @@ func _physics_process(delta):
 		timeSinceTouchingWall = 0
 
 	# Handle jump. (periot)
-	if Input.is_action_pressed("ui_accept") or jumpBufferedTime < MAX_JUMP_BUFFER_TIME and not is_stunned():
+	if Input.is_action_pressed("ui_accept") or timeSinceJumpBuffered < MAX_JUMP_BUFFER_TIME and not is_stunned():
 		if not jumped and holdingJump:
 			jump(JUMP_VELOCITY, delta)
-			jumpBufferedTime = MAX_JUMP_BUFFER_TIME
+			timeSinceJumpBuffered = MAX_JUMP_BUFFER_TIME
 		elif timeSinceTouchingWall < WALLJUMP_COYOTE_TIME and timeSinceLastJump > WALLJUMP_DELAY and not is_on_floor():
 			velocity.y = WALLJUMP_VELOCITY
 			velocity.x += get_wall_normal().x * WALLJUMP_HORIZONTAL_VELOCITY
 			timeSinceLastJump = 0
-			jumpBufferedTime = MAX_JUMP_BUFFER_TIME
-		elif not holdingJump and jumpBufferedTime > MAX_JUMP_BUFFER_TIME: # if we're not jumping buffer it
-			jumpBufferedTime = 0
+			timeSinceJumpBuffered = MAX_JUMP_BUFFER_TIME
+		elif not holdingJump and timeSinceJumpBuffered > MAX_JUMP_BUFFER_TIME: # if we're not jumping buffer it
+			timeSinceJumpBuffered = 0
 		if timeSinceTouchingGround < JUMP_COYOTE_TIME:
 			holdingJump = true
 	else:
@@ -99,7 +99,7 @@ func _physics_process(delta):
 	# React if jump stops held
 	if Input.is_action_just_released("ui_accept") and velocity.y < 0:
 		velocity.y *= .5
-		
+
 	var direction = Input.get_axis("ui_left", "ui_right")
 	if direction and not is_stunned():
 		var newXVel = velocity.x + direction * accel_fac
@@ -136,8 +136,8 @@ func jump(force, jdelta):
 
 func hit(direction, force):
 	velocity = direction * force
-	hitStunTime = 0
+	timeSinceJumpBuffered = 0
 	pass
 
 func is_stunned():
-	return hitStunTime < MAX_HIT_STUN_TIME
+	return timeSinceJumpBuffered < MAX_HIT_STUN_TIME
