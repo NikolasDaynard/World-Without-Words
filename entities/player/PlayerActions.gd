@@ -49,7 +49,9 @@ func _process(delta):
 	# long dash (CHECK IF UNLOCKED)
 	if Input.is_action_just_pressed("ui_accept"):
 		if timeSinceDash < MAX_DASH_TIME and charController.timeSinceTouchingGround < charController.JUMP_COYOTE_TIME:
-			charController.velocity.x -= 100.0 * charController.facing_direction.x
+			dashDir.y = -.4
+			# dashDir.x = sign(dashDir.x) * 1.3
+			# charController.velocity.x -= 100.0 * charController.facing_direction.x
 			# charController.jump(charController.JUMP_VELOCITY, delta)
 
 	if charController.is_stunned():

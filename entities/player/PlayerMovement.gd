@@ -51,7 +51,7 @@ func _process(delta):
 	if timeTouchingWall == 0:
 		if velocity.x != 0:
 			previousSpeed = velocity
-	elif timeTouchingWall < MAX_WALL_VELOCITY_PRESERVATION_TIME and not is_on_wall():
+	elif timeTouchingWall < MAX_WALL_VELOCITY_PRESERVATION_TIME and not is_on_wall() and facing_direction.x == sign(previousSpeed.x):
 		velocity.x = previousSpeed.x
 
 func _physics_process(delta):
@@ -102,7 +102,8 @@ func _physics_process(delta):
 			velocity.x += get_wall_normal().x * WALLJUMP_HORIZONTAL_VELOCITY
 			timeSinceLastJump = 0
 			timeSinceJumpBuffered = MAX_JUMP_BUFFER_TIME
-			timeTouchingWall = 0
+			timeTouchingWall = 0 # TODO: this is hacky but fixes vel pres with walljump
+			previousSpeed = velocity
 		elif not holdingJump and timeSinceJumpBuffered > MAX_JUMP_BUFFER_TIME: # if we're not jumping buffer it
 			timeSinceJumpBuffered = 0
 		if timeSinceTouchingGround < JUMP_COYOTE_TIME:
