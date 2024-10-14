@@ -11,6 +11,7 @@ const MAX_DASH_TIME = .15
 var timeSinceDash = MAX_DASH_TIME
 var isVerticalDash = false
 var verticalDashDir = 0
+var dashDir = Vector2(0, 0)
 var dashesUsed = 0
 const MAX_DASHES = 1
 
@@ -33,23 +34,16 @@ func _process(delta):
 
 	if Input.is_action_just_pressed("dash") and timeSinceDash > MAX_DASH_TIME and not charController.is_stunned() and dashesUsed < MAX_DASHES:
 		timeSinceDash = 0
-		verticalDashDir = 0
+		# verticalDashDir = 0
 		dashesUsed += 1
 		lanceSprite.visible = true
+		if not charController.pressing_dir_x:
+			dashDir = Vector2(0, charController.facing_direction.y)
+		else:
+			dashDir = charController.facing_direction.normalized()
 
 	if timeSinceDash < MAX_DASH_TIME:
-		var normalizedDir = charController.facing_direction.normalized()
-		# properly handle just y no x
-		if not charController.pressing_dir_x and (normalizedDir.y != 0 or verticalDashDir != 0):
-			if normalizedDir.y != 0:
-				charController.velocity.y = normalizedDir.y * DASH_SPEED
-				verticalDashDir = normalizedDir.y
-			elif verticalDashDir != 0:
-				charController.velocity.y = verticalDashDir * DASH_SPEED
-		else:
-			if normalizedDir.y != 0:
-				verticalDashDir = normalizedDir.y
-			charController.velocity = Vector2(normalizedDir.x, verticalDashDir) * DASH_SPEED
+		charController.velocity = dashDir * DASH_SPEED
 		lanceSprite.rotation = charController.velocity.angle()
 		lanceControl.position = charController.velocity / 10.0
 	# long dash (CHECK IF UNLOCKED)

@@ -24,6 +24,7 @@ polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -6
 [node name="lance" type="Node2D" parent="CharacterBody2D"]
 position = Vector2(0, 3)
 rotation = 1.56535
+scale = Vector2(0.532002, 0.390063)
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D/lance"]
 texture_filter = 1
