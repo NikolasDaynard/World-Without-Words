@@ -4,11 +4,13 @@ extends Node2D
 @onready var ui = $"../InteractionUi"
 @onready var charController = $"CharacterBody2D"
 @onready var sprite = $"CharacterBody2D/Sprite2D"
-var DASH_SPEED = 1200.0
-var MAX_DASH_TIME = .15
+const DASH_SPEED = 1200.0
+const MAX_DASH_TIME = .15
 var timeSinceDash = MAX_DASH_TIME
 var isVerticalDash = false
 var verticalDashDir = 0
+var dashesUsed = 0
+const MAX_DASHES = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,13 +25,16 @@ func _process(delta):
 			charController.global_position - Vector2(20, 20),
 			charController.facing_direction.x,
 			true)
-	if Input.is_action_just_pressed("dash") and timeSinceDash > MAX_DASH_TIME and not charController.is_stunned():
+	if charController.is_on_floor():
+		dashesUsed = 0
+
+	if Input.is_action_just_pressed("dash") and timeSinceDash > MAX_DASH_TIME and not charController.is_stunned() and dashesUsed < MAX_DASHES:
 		timeSinceDash = 0
 		verticalDashDir = 0
+		dashesUsed += 1
 
 	if timeSinceDash < MAX_DASH_TIME:
 		var normalizedDir = charController.facing_direction.normalized()
-		normalizedDir.y *= 1.7 # add y bias
 		# properly handle just y no x
 		if not charController.pressing_dir_x and (normalizedDir.y != 0 or verticalDashDir != 0):
 			if normalizedDir.y != 0:
