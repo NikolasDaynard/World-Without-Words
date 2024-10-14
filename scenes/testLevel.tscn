@@ -43,7 +43,47 @@ position = Vector2(-6267.29, 1143.39)
 scale = Vector2(58.6017, 15.1657)
 polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
 
+[node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(-10995.5, 336.435)
+scale = Vector2(4.61336, 2.16841)
+polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
+
+[node name="CollisionPolygon2D6" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(-12555.1, -14.6276)
+scale = Vector2(4.61336, 2.16841)
+polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
+
+[node name="CollisionPolygon2D7" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(-15132.6, -1087.32)
+scale = Vector2(4.61336, 2.16841)
+polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
+
+[node name="CollisionPolygon2D8" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(-19298.5, -1075.13)
+scale = Vector2(4.61336, 2.16841)
+polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
+
 [node name="Sprite2D4" type="Sprite2D" parent="."]
 position = Vector2(-6267.29, 1143.39)
 scale = Vector2(58.6017, 15.1657)
+texture = ExtResource("1_lb1gg")
+
+[node name="Sprite2D5" type="Sprite2D" parent="."]
+position = Vector2(-10995.5, 336.435)
+scale = Vector2(4.61336, 2.16841)
+texture = ExtResource("1_lb1gg")
+
+[node name="Sprite2D6" type="Sprite2D" parent="."]
+position = Vector2(-12555.1, -14.6276)
+scale = Vector2(4.61336, 2.16841)
+texture = ExtResource("1_lb1gg")
+
+[node name="Sprite2D7" type="Sprite2D" parent="."]
+position = Vector2(-15132.6, -1087.32)
+scale = Vector2(4.61336, 2.16841)
+texture = ExtResource("1_lb1gg")
+
+[node name="Sprite2D8" type="Sprite2D" parent="."]
+position = Vector2(-19298.5, -1075.13)
+scale = Vector2(4.61336, 2.16841)
 texture = ExtResource("1_lb1gg")

@@ -42,7 +42,7 @@ func _process(delta):
 	timeSinceTouchingGround += delta
 	timeTouchingGround += delta
 	timeSinceJumpBuffered += delta
-	timeSinceJumpBuffered += delta
+	timeSinceStunned += delta
 
 func _physics_process(delta):
 	if Input.is_action_pressed("up"):
@@ -136,8 +136,8 @@ func jump(force, jdelta):
 
 func hit(direction, force):
 	velocity = direction * force
-	timeSinceJumpBuffered = 0
+	timeSinceStunned = 0
 	pass
 
 func is_stunned():
-	return timeSinceJumpBuffered < MAX_HIT_STUN_TIME
+	return timeSinceStunned < MAX_HIT_STUN_TIME

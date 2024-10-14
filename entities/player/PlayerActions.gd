@@ -28,7 +28,7 @@ func _process(delta):
 		verticalDashDir = 0
 	if timeSinceDash < MAX_DASH_TIME:
 		var normalizedDir = charController.facing_direction.normalized()
-		normalizedDir.y *= 1.2 # add y bias
+		normalizedDir.y *= 1.7 # add y bias
 		# properly handle just y no x
 		if not charController.pressing_dir_x and (normalizedDir.y != 0 or verticalDashDir != 0):
 			if normalizedDir.y != 0:
