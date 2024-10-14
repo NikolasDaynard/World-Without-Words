@@ -80,3 +80,4 @@ animation = &"slash"
 frame = 5
 frame_progress = 0.420899
 speed_scale = 100.0
+flip_v = true
