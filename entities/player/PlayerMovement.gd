@@ -30,8 +30,12 @@ const MAX_JUMP_BUFFER_TIME = .1
 var timeSinceJumpBuffered = MAX_JUMP_BUFFER_TIME
 var crouching = false
 
-var MAX_HIT_STUN_TIME = .8
+const MAX_HIT_STUN_TIME = .8
 var timeSinceStunned = MAX_HIT_STUN_TIME
+
+const MAX_WALL_VELOCITY_PRESERVATION_TIME = .1 # frames col with wall until kill speed TODO: implement
+var timeTouchingWall = 0
+var previousSpeed = Vector2(0, 0)
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -43,6 +47,12 @@ func _process(delta):
 	timeTouchingGround += delta
 	timeSinceJumpBuffered += delta
 	timeSinceStunned += delta
+
+	if timeTouchingWall == 0:
+		if velocity.x != 0:
+			previousSpeed = velocity
+	elif timeTouchingWall < MAX_WALL_VELOCITY_PRESERVATION_TIME and not is_on_wall():
+		velocity.x = previousSpeed.x
 
 func _physics_process(delta):
 	if Input.is_action_pressed("up"):
@@ -78,6 +88,9 @@ func _physics_process(delta):
 
 	if is_on_wall():
 		timeSinceTouchingWall = 0
+		timeTouchingWall += delta
+	else:
+		timeTouchingWall = 0
 
 	# Handle jump. (periot)
 	if Input.is_action_pressed("ui_accept") or timeSinceJumpBuffered < MAX_JUMP_BUFFER_TIME and not is_stunned():
@@ -89,6 +102,7 @@ func _physics_process(delta):
 			velocity.x += get_wall_normal().x * WALLJUMP_HORIZONTAL_VELOCITY
 			timeSinceLastJump = 0
 			timeSinceJumpBuffered = MAX_JUMP_BUFFER_TIME
+			timeTouchingWall = 0
 		elif not holdingJump and timeSinceJumpBuffered > MAX_JUMP_BUFFER_TIME: # if we're not jumping buffer it
 			timeSinceJumpBuffered = 0
 		if timeSinceTouchingGround < JUMP_COYOTE_TIME:
