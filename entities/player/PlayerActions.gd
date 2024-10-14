@@ -37,7 +37,7 @@ func _process(delta):
 			elif verticalDashDir != 0:
 				charController.velocity.y = verticalDashDir * DASH_SPEED
 		else:
-			verticalDashDir = 0
+			verticalDashDir = normalizedDir.y
 			charController.velocity = normalizedDir * DASH_SPEED
 	# long dash (CHECK IF UNLOCKED)
 	if Input.is_action_just_pressed("ui_accept"):
