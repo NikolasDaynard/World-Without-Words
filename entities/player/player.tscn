@@ -1,9 +1,49 @@
-[gd_scene load_steps=5 format=3 uid="uid://d0jmh4abseyri"]
+[gd_scene load_steps=14 format=3 uid="uid://d0jmh4abseyri"]
 
 [ext_resource type="Script" path="res://entities/player/PlayerActions.gd" id="1_cb8q1"]
 [ext_resource type="Texture2D" uid="uid://bmoii0n4mlefi" path="res://icon.svg" id="1_old2r"]
 [ext_resource type="Script" path="res://entities/player/PlayerMovement.gd" id="2_10udd"]
 [ext_resource type="Texture2D" uid="uid://cshmhtywc3g1q" path="res://artdemos/lance.png" id="4_vqsla"]
+[ext_resource type="Texture2D" uid="uid://bc1xy7r21bw1d" path="res://artdemos/lanceAnim/lance1.png" id="5_i6rtb"]
+[ext_resource type="Texture2D" uid="uid://ovy31gfg3c0k" path="res://artdemos/lanceAnim/lance2.png" id="6_0323s"]
+[ext_resource type="Texture2D" uid="uid://cxifp0m7v1hwr" path="res://artdemos/lanceAnim/lance3.png" id="7_rsmx2"]
+[ext_resource type="Texture2D" uid="uid://7w55t62xx1q" path="res://artdemos/lanceAnim/lance4.png" id="8_f36t5"]
+[ext_resource type="Texture2D" uid="uid://dusfsii0dhwv" path="res://artdemos/lanceAnim/lance5.png" id="9_xikk7"]
+[ext_resource type="Texture2D" uid="uid://eq3fhac032tw" path="res://artdemos/lanceAnim/lance6.png" id="10_4k2xv"]
+[ext_resource type="Texture2D" uid="uid://dv1who61balk5" path="res://artdemos/lanceAnim/lance7.png" id="11_y55hg"]
+[ext_resource type="Texture2D" uid="uid://bsybwh3njiiqb" path="res://artdemos/lanceAnim/lance8.png" id="12_jttyv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xrkva"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_i6rtb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_0323s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_rsmx2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_f36t5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_xikk7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_4k2xv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_y55hg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_jttyv")
+}],
+"loop": true,
+"name": &"slash",
+"speed": 5.0
+}]
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_cb8q1")
@@ -27,6 +67,16 @@ rotation = 1.56535
 scale = Vector2(0.532002, 0.390063)
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D/lance"]
+visible = false
 texture_filter = 1
 scale = Vector2(6.52493, 12.2049)
 texture = ExtResource("4_vqsla")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D/lance"]
+texture_filter = 1
+scale = Vector2(12.5225, -20.7699)
+sprite_frames = SubResource("SpriteFrames_xrkva")
+animation = &"slash"
+frame = 5
+frame_progress = 0.420899
+speed_scale = 100.0

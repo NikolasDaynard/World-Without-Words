@@ -33,7 +33,7 @@ var crouching = false
 const MAX_HIT_STUN_TIME = .8
 var timeSinceStunned = MAX_HIT_STUN_TIME
 
-const MAX_WALL_VELOCITY_PRESERVATION_TIME = .1 # frames col with wall until kill speed TODO: implement
+const MAX_WALL_VELOCITY_PRESERVATION_TIME = .1 # frames col with wall until kill speed
 var timeTouchingWall = 0
 var previousSpeed = Vector2(0, 0)
 
