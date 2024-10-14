@@ -4,9 +4,9 @@ extends Node2D
 @onready var ui = $"../InteractionUi"
 @onready var charController = $"CharacterBody2D"
 @onready var sprite = $"CharacterBody2D/Sprite2D"
-var MAX_DASH_TIME = .1
+var DASH_SPEED = 1200.0
+var MAX_DASH_TIME = .15
 var timeSinceDash = MAX_DASH_TIME
-var DASH_SPEED = 1400.0
 var isVerticalDash = false
 var verticalDashDir = 0
 
@@ -26,6 +26,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("dash") and timeSinceDash > MAX_DASH_TIME and not charController.is_stunned():
 		timeSinceDash = 0
 		verticalDashDir = 0
+
 	if timeSinceDash < MAX_DASH_TIME:
 		var normalizedDir = charController.facing_direction.normalized()
 		normalizedDir.y *= 1.7 # add y bias
@@ -37,8 +38,9 @@ func _process(delta):
 			elif verticalDashDir != 0:
 				charController.velocity.y = verticalDashDir * DASH_SPEED
 		else:
-			verticalDashDir = normalizedDir.y
-			charController.velocity = normalizedDir * DASH_SPEED
+			if normalizedDir.y != 0:
+				verticalDashDir = normalizedDir.y
+			charController.velocity = Vector2(normalizedDir.x, verticalDashDir) * DASH_SPEED
 	# long dash (CHECK IF UNLOCKED)
 	if Input.is_action_just_pressed("ui_accept"):
 		if timeSinceDash < MAX_DASH_TIME and charController.timeSinceTouchingGround < charController.JUMP_COYOTE_TIME:
