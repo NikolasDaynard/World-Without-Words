@@ -4,6 +4,8 @@ extends Node2D
 @onready var ui = $"../InteractionUi"
 @onready var charController = $"CharacterBody2D"
 @onready var sprite = $"CharacterBody2D/Sprite2D"
+@onready var lanceSprite = $"CharacterBody2D/lance/Sprite2D"
+@onready var lanceControl = $"CharacterBody2D/lance"
 const DASH_SPEED = 1200.0
 const MAX_DASH_TIME = .15
 var timeSinceDash = MAX_DASH_TIME
@@ -27,11 +29,13 @@ func _process(delta):
 			true)
 	if charController.is_on_floor():
 		dashesUsed = 0
+		lanceSprite.visible = false
 
 	if Input.is_action_just_pressed("dash") and timeSinceDash > MAX_DASH_TIME and not charController.is_stunned() and dashesUsed < MAX_DASHES:
 		timeSinceDash = 0
 		verticalDashDir = 0
 		dashesUsed += 1
+		lanceSprite.visible = true
 
 	if timeSinceDash < MAX_DASH_TIME:
 		var normalizedDir = charController.facing_direction.normalized()
@@ -46,6 +50,8 @@ func _process(delta):
 			if normalizedDir.y != 0:
 				verticalDashDir = normalizedDir.y
 			charController.velocity = Vector2(normalizedDir.x, verticalDashDir) * DASH_SPEED
+		lanceSprite.rotation = charController.velocity.angle()
+		lanceControl.position = charController.velocity / 10.0
 	# long dash (CHECK IF UNLOCKED)
 	if Input.is_action_just_pressed("ui_accept"):
 		if timeSinceDash < MAX_DASH_TIME and charController.timeSinceTouchingGround < charController.JUMP_COYOTE_TIME:

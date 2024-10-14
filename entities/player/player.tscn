@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://d0jmh4abseyri"]
+[gd_scene load_steps=5 format=3 uid="uid://d0jmh4abseyri"]
 
 [ext_resource type="Script" path="res://entities/player/PlayerActions.gd" id="1_cb8q1"]
 [ext_resource type="Texture2D" uid="uid://bmoii0n4mlefi" path="res://icon.svg" id="1_old2r"]
 [ext_resource type="Script" path="res://entities/player/PlayerMovement.gd" id="2_10udd"]
+[ext_resource type="Texture2D" uid="uid://cshmhtywc3g1q" path="res://artdemos/lance.png" id="4_vqsla"]
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_cb8q1")
@@ -19,3 +20,12 @@ texture = ExtResource("1_old2r")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CharacterBody2D"]
 polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
+
+[node name="lance" type="Node2D" parent="CharacterBody2D"]
+position = Vector2(0, 3)
+rotation = 1.56535
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D/lance"]
+texture_filter = 1
+scale = Vector2(6.52493, 12.2049)
+texture = ExtResource("4_vqsla")
