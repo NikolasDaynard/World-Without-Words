@@ -14,6 +14,8 @@ func _process(_delta):
 	pass
 	
 func summon_text(text, new_position, direction_vector, friendly_to_player):
+	if not direction_vector is Vector2:
+		direction_vector = Vector2(direction_vector, 0)
 	var text_is_finished = false
 	if lastSummonedText:
 		if is_instance_valid(lastSummonedText):
@@ -31,7 +33,7 @@ func summon_text(text, new_position, direction_vector, friendly_to_player):
 	add_child(newText)
 	newText.set_friendly_to_player(friendly_to_player)
 	newText.add_text(text)
-	newText.direction_vector.x = direction_vector
+	newText.direction_vector = direction_vector
 	newText.global_position = new_position
 	pass
 

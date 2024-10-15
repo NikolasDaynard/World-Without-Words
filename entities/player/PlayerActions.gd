@@ -26,7 +26,7 @@ func _process(delta):
 	if Input.is_action_just_pressed("attack"):
 		ui.summon_text("SPIKE YEAHHHH\n oh ma gawd", 
 			charController.global_position - Vector2(20, 20),
-			charController.facing_direction.x,
+			charController.facing_direction,
 			true)
 	if charController.is_on_floor():
 		dashesUsed = 0

@@ -17,7 +17,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	attackTimer += delta
+	# attackTimer += delta
 	if attackTimer > 4:
 		attackTimer = 0
 		ui.summon_text("SPIKE YEAHHHH\n oh ma gawd", 
