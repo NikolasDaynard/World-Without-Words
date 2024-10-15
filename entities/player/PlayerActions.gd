@@ -43,6 +43,8 @@ func _process(delta):
 			dashDir = charController.facing_direction.normalized()
 
 	if timeSinceDash < MAX_DASH_TIME:
+		# if charController.is_on_wall(): # change to on enemy col
+		# 	dashDir *= charController.get_wall_normal();
 		charController.velocity = dashDir * DASH_SPEED
 		lanceSprite.rotation = charController.velocity.angle()
 		lanceControl.position = charController.velocity / 10.0

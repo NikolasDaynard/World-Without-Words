@@ -1,3 +1,65 @@
-[gd_scene format=3 uid="uid://c2fxc4ttofm6i"]
+[gd_scene load_steps=3 format=3 uid="uid://c2fxc4ttofm6i"]
+
+[ext_resource type="Texture2D" uid="uid://bmoii0n4mlefi" path="res://icon.svg" id="1_ubg0l"]
+[ext_resource type="PackedScene" uid="uid://dt4qjuwq4noxq" path="res://entities/librarian/librarian.tscn" id="2_loyq2"]
 
 [node name="LibrarianArchive" type="Node2D"]
+
+[node name="Librarian" parent="." instance=ExtResource("2_loyq2")]
+position = Vector2(-1, -88)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(51, 390)
+scale = Vector2(16.875, 1)
+polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(-1082, -52)
+scale = Vector2(1.39159, 6.89414)
+polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(1153, -64)
+scale = Vector2(1.39159, 6.89414)
+polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
+
+[node name="CollisionPolygon2D4" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(-572, 98)
+scale = Vector2(2.16491, 0.376714)
+polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
+
+[node name="CollisionPolygon2D5" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(652, 92)
+rotation = 3.14159
+scale = Vector2(2.5467, 0.335742)
+polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
+
+[node name="levelsprites" type="Node2D" parent="."]
+
+[node name="Sprite2D4" type="Sprite2D" parent="levelsprites"]
+position = Vector2(-572, 98)
+scale = Vector2(2.16491, 0.376714)
+texture = ExtResource("1_ubg0l")
+
+[node name="Sprite2D5" type="Sprite2D" parent="levelsprites"]
+position = Vector2(652, 92)
+rotation = 3.14159
+scale = Vector2(2.5467, 0.335742)
+texture = ExtResource("1_ubg0l")
+
+[node name="Sprite2D" type="Sprite2D" parent="levelsprites"]
+position = Vector2(51, 390)
+scale = Vector2(16.875, 1)
+texture = ExtResource("1_ubg0l")
+
+[node name="Sprite2D2" type="Sprite2D" parent="levelsprites"]
+position = Vector2(-1082, -52)
+scale = Vector2(1.39159, 6.89414)
+texture = ExtResource("1_ubg0l")
+
+[node name="Sprite2D3" type="Sprite2D" parent="levelsprites"]
+position = Vector2(1153, -64)
+scale = Vector2(1.39159, 6.89414)
+texture = ExtResource("1_ubg0l")
