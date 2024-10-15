@@ -24,10 +24,16 @@ func _ready():
 func _process(delta):
 	timeSinceDash += delta
 	if Input.is_action_just_pressed("attack"):
-		ui.summon_text("SPIKE YEAHHHH\n oh ma gawd", 
-			charController.global_position - Vector2(20, 20),
-			charController.facing_direction,
-			true)
+		if charController.pressing_dir_x or charController.facing_direction.y == 0:
+			ui.summon_text("SPIKE YEAHHHH\n oh ma gawd", 
+				charController.global_position - Vector2(20, 20),
+				charController.facing_direction,
+				true)
+		else:
+			ui.summon_text("SPIKE YEAHHHH\n oh ma gawd", 
+				charController.global_position - Vector2(20, 20),
+				Vector2(0, charController.facing_direction.y),
+				true)
 	if charController.is_on_floor():
 		dashesUsed = 0
 
