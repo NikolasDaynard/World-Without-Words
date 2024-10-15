@@ -13,7 +13,7 @@ func _ready():
 func _process(_delta):
 	pass
 	
-func summon_text(text, new_position, direction_vector, friendly_to_player):
+func summon_text(text: String, new_position: Vector2, direction_vector: Variant, friendly_to_player: bool):
 	if not direction_vector is Vector2:
 		direction_vector = Vector2(direction_vector, 0)
 	var text_is_finished = false

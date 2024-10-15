@@ -142,17 +142,17 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-func jump(force, jdelta):
+func jump(force: float, jdelta: float):
 	if velocity.y > 0:
 		velocity.y = 0
 	velocity.y += force - (gravity * jdelta) # cancel grav
 	jumped = true
 	timeSinceLastJump = 0
 
-func hit(direction, force):
+func hit(direction: Vector2, force: float):
 	velocity = direction * force
 	timeSinceStunned = 0
 	pass
 
-func is_stunned():
+func is_stunned() -> bool:
 	return timeSinceStunned < MAX_HIT_STUN_TIME

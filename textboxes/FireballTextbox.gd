@@ -57,7 +57,7 @@ func add_text(new_text):
 func is_finished(): # returns true when finished speaking
 	return timeAlive > UI_MOVEMENT_DELAY
 
-func set_friendly_to_player(friendly):
+func set_friendly_to_player(friendly: bool):
 	is_player_friendly = friendly
 	pass
 

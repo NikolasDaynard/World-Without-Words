@@ -35,7 +35,7 @@ func _process(delta):
 		
 	pass
 	
-func add_text(new_text):
+func add_text(new_text: String):
 	text = new_text
 	var textSize = font.get_multiline_string_size(new_text)
 

@@ -43,6 +43,6 @@ func _on_body_entered(body):
 		body.hit(body.global_position - global_position, 15)
 	pass
 
-func apply_force(force_direction, force):
+func apply_force(force_direction: Vector2, force: float):
 	force_direction.y = -abs(force_direction.y)
 	velocity = force_direction * force
