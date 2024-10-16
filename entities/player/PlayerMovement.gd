@@ -6,6 +6,7 @@ const GROUND_DECEL = GROUND_ACCEL * .5
 const AIR_ACCEL = MOVESPEED * .35
 const AIR_DECEL = AIR_ACCEL * .5
 const MAX_SPEED = MOVESPEED * 3
+const MAX_IMPULSE_SPEED = MOVESPEED * 5.3 # speed above movespeed
 var jumped = false
 const MAX_JUMP_VELOCITY = -1000
 const JUMP_VELOCITY = -1000
@@ -132,6 +133,8 @@ func _physics_process(delta):
 
 		# only slow if coyote time has passed for easier chaining
 		if clamp(velocity.x, -MAX_SPEED, MAX_SPEED) != velocity.x and timeTouchingGround > JUMP_FRICTION_COYOTE_TIME and is_on_floor():
+			velocity.x = move_toward(velocity.x, 0, decel_fac)
+		elif clamp(velocity.x, -MAX_IMPULSE_SPEED, MAX_IMPULSE_SPEED) != velocity.x:
 			velocity.x = move_toward(velocity.x, 0, decel_fac)
 
 		facing_direction.x = direction

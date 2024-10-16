@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://c2fxc4ttofm6i"]
+[gd_scene load_steps=5 format=3 uid="uid://c2fxc4ttofm6i"]
 
 [ext_resource type="Texture2D" uid="uid://bmoii0n4mlefi" path="res://icon.svg" id="1_ubg0l"]
 [ext_resource type="PackedScene" uid="uid://dt4qjuwq4noxq" path="res://entities/librarian/librarian.tscn" id="2_loyq2"]
+[ext_resource type="Script" path="res://scripts/CameraLock.gd" id="3_kly6c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k74w5"]
 
 [node name="LibrarianArchive" type="Node2D"]
 
@@ -63,3 +66,10 @@ texture = ExtResource("1_ubg0l")
 position = Vector2(1153, -64)
 scale = Vector2(1.39159, 6.89414)
 texture = ExtResource("1_ubg0l")
+
+[node name="cameralock" type="Area2D" parent="."]
+script = ExtResource("3_kly6c")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="cameralock"]
+scale = Vector2(110.065, 41.7127)
+shape = SubResource("RectangleShape2D_k74w5")
