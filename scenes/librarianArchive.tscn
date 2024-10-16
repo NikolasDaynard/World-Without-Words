@@ -67,9 +67,12 @@ position = Vector2(1153, -64)
 scale = Vector2(1.39159, 6.89414)
 texture = ExtResource("1_ubg0l")
 
-[node name="cameralock" type="Area2D" parent="."]
+[node name="cameralock" type="Area2D" parent="." node_paths=PackedStringArray("endLock")]
 script = ExtResource("3_kly6c")
+endLock = NodePath("../Librarian")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="cameralock"]
 scale = Vector2(110.065, 41.7127)
 shape = SubResource("RectangleShape2D_k74w5")
+
+[connection signal="body_entered" from="cameralock" to="cameralock" method="_on_body_entered"]

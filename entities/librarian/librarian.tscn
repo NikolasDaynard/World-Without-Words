@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://entities/librarian/librarian.gd" id="2_c5iw6"]
 
 [node name="Librarian" type="Node2D"]
+position = Vector2(-1, 0)
 script = ExtResource("2_c5iw6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
