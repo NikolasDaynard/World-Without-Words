@@ -1,12 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://c2f4y2dh2c4on"]
+[gd_scene load_steps=7 format=3 uid="uid://c2f4y2dh2c4on"]
 
 [ext_resource type="PackedScene" uid="uid://d0jmh4abseyri" path="res://entities/player/player.tscn" id="1_4pljp"]
 [ext_resource type="PackedScene" uid="uid://bm7fit1347f8t" path="res://scenes/testLevel.tscn" id="2_7uesl"]
 [ext_resource type="PackedScene" uid="uid://c51gag3qeaoes" path="res://textboxes/InteractionUi.tscn" id="3_63qn2"]
-[ext_resource type="PackedScene" uid="uid://cxyyde4ieiq1n" path="res://entities/enemy/enemy.tscn" id="4_1psfw"]
 [ext_resource type="PackedScene" uid="uid://c2fxc4ttofm6i" path="res://scenes/librarianArchive.tscn" id="5_kfq1n"]
 [ext_resource type="PackedScene" uid="uid://cttqxwnby34d1" path="res://textboxes/WallFireTextbox.tscn" id="6_oy3lo"]
-[ext_resource type="PackedScene" uid="uid://c086jkowitao1" path="res://entities/enemy/enemyChar.tscn" id="7_3bg78"]
+[ext_resource type="PackedScene" uid="uid://c086jkowitao1" path="res://entities/enemy/enemy.tscn" id="7_3bg78"]
 
 [node name="Scene" type="Node2D"]
 
@@ -17,9 +16,6 @@ position = Vector2(0, -113)
 
 [node name="InteractionUi" parent="." instance=ExtResource("3_63qn2")]
 
-[node name="Enemy" parent="." instance=ExtResource("4_1psfw")]
-position = Vector2(379, 3)
-
 [node name="LibrarianArchive" parent="." instance=ExtResource("5_kfq1n")]
 position = Vector2(2435, 88)
 
@@ -27,4 +23,4 @@ position = Vector2(2435, 88)
 position = Vector2(-1055, -204)
 
 [node name="Enemy2" parent="." instance=ExtResource("7_3bg78")]
-position = Vector2(-301, -448)
+position = Vector2(356, -23)
