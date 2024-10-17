@@ -5,7 +5,7 @@
 
 [node name="Enemy" type="Node2D"]
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["enemy"]]
 script = ExtResource("1_ygtpm")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]

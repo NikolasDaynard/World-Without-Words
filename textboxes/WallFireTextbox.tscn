@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://cttqxwnby34d1"]
+
+[ext_resource type="Script" path="res://textboxes/WallFireTextbox.gd" id="1_f5c4s"]
+[ext_resource type="FontFile" uid="uid://did6hy5yfhq4x" path="res://XTypewriter-nAgg0.ttf" id="2_sx83s"]
+[ext_resource type="Texture2D" uid="uid://bmoii0n4mlefi" path="res://icon.svg" id="3_xc0hl"]
+
+[node name="WallFireTextbox" type="Node2D"]
+script = ExtResource("1_f5c4s")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(65, 66)
+texture = ExtResource("3_xc0hl")
+
+[node name="Area2D" type="Area2D" parent="Sprite2D"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Sprite2D/Area2D"]
+polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -64, 58, -64, -59, -59, -63.8, 59.2, -64)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+clip_contents = true
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(3.25889, 3.27356)
+
+[node name="Label" type="Label" parent="TextureRect"]
+z_index = 1
+offset_left = -2.0
+offset_right = 84.0
+offset_bottom = 23.0
+scale = Vector2(0.471311, 0.471311)
+theme_override_fonts/font = ExtResource("2_sx83s")
+text = "Testing"
+
+[connection signal="area_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_body_entered"]

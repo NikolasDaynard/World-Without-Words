@@ -33,9 +33,7 @@ func _process(delta):
 	velocity.x = move_toward(velocity.x, 0, .1)
 	velocity.y = move_toward(velocity.y, 0, .1)
 	velocity *= .3
-
-
-
+	
 
 func _on_body_entered(body):
 	# print(body)
@@ -46,3 +44,7 @@ func _on_body_entered(body):
 func apply_force(force_direction: Vector2, force: float):
 	force_direction.y = -abs(force_direction.y)
 	velocity = force_direction * force
+
+func hit(hit_direction: Vector2, force: float):
+	velocity = hit_direction * force
+	pass

@@ -11,6 +11,8 @@ func _ready():
 	attackTimer = 4
 	ui = get_node("/root/Scene/InteractionUi")
 	player = get_node("/root/Scene/Player/CharacterBody2D")
+
+	# instantiate arc
 	
 	pass 
 

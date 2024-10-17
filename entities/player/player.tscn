@@ -1,9 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://d0jmh4abseyri"]
+[gd_scene load_steps=15 format=3 uid="uid://d0jmh4abseyri"]
 
 [ext_resource type="Script" path="res://entities/player/PlayerActions.gd" id="1_cb8q1"]
 [ext_resource type="Texture2D" uid="uid://bmoii0n4mlefi" path="res://icon.svg" id="1_old2r"]
 [ext_resource type="Script" path="res://entities/player/PlayerMovement.gd" id="2_10udd"]
-[ext_resource type="Texture2D" uid="uid://cshmhtywc3g1q" path="res://artdemos/lance.png" id="4_vqsla"]
+[ext_resource type="Script" path="res://entities/player/Lance.gd" id="4_n6dks"]
 [ext_resource type="Texture2D" uid="uid://bc1xy7r21bw1d" path="res://artdemos/lanceAnim/lance1.png" id="5_i6rtb"]
 [ext_resource type="Texture2D" uid="uid://ovy31gfg3c0k" path="res://artdemos/lanceAnim/lance2.png" id="6_0323s"]
 [ext_resource type="Texture2D" uid="uid://cxifp0m7v1hwr" path="res://artdemos/lanceAnim/lance3.png" id="7_rsmx2"]
@@ -45,6 +45,8 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_scqkr"]
+
 [node name="Player" type="Node2D"]
 script = ExtResource("1_cb8q1")
 
@@ -65,12 +67,7 @@ polygon = PackedVector2Array(64, -61.1, 64, 59, 59.6, 64, -60.2, 64, -64, 61, -6
 position = Vector2(0, 3)
 rotation = 1.56535
 scale = Vector2(0.532002, 0.390063)
-
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D/lance"]
-visible = false
-texture_filter = 1
-scale = Vector2(6.52493, 12.2049)
-texture = ExtResource("4_vqsla")
+script = ExtResource("4_n6dks")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D/lance"]
 texture_filter = 1
@@ -81,3 +78,11 @@ frame = 5
 frame_progress = 0.420899
 speed_scale = 100.0
 flip_v = true
+
+[node name="Area2D" type="Area2D" parent="CharacterBody2D/lance"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/lance/Area2D"]
+scale = Vector2(11.8738, 16.2581)
+shape = SubResource("RectangleShape2D_scqkr")
+
+[connection signal="area_entered" from="CharacterBody2D/lance/Area2D" to="CharacterBody2D/lance" method="_on_area_2d_area_entered"]
