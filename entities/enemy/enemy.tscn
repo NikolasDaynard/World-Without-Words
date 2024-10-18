@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://c086jkowitao1"]
+[gd_scene load_steps=5 format=3 uid="uid://c086jkowitao1"]
 
 [ext_resource type="Script" path="res://entities/enemy/Enemy.gd" id="1_dwhrk"]
 [ext_resource type="Texture2D" uid="uid://bmoii0n4mlefi" path="res://icon.svg" id="2_16h4b"]
+[ext_resource type="Material" uid="uid://yuv1if7u0a44" path="res://entities/enemy/whiteFlash.material" id="2_78ppv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dm47a"]
 
@@ -13,6 +14,7 @@ lock_rotation = true
 script = ExtResource("1_dwhrk")
 
 [node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+material = ExtResource("2_78ppv")
 texture = ExtResource("2_16h4b")
 
 [node name="WallRaycast" type="RayCast2D" parent="RigidBody2D"]
