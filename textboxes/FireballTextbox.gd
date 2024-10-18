@@ -63,8 +63,10 @@ func set_friendly_to_player(friendly: bool):
 
 func _on_area_2d_body_entered(body):
 	# print(body)
-	if not is_player_friendly and body.has_method("hit"):
+	if (not is_player_friendly and body.has_method("hit") and body.is_in_group("player")) or (is_player_friendly and body.is_in_group("enemy")):
+
 		body.hit(body.global_position - global_position, 10.0)
+
 	pass # Replace with function body.
 
 
